@@ -224,6 +224,7 @@ cc_library(
         "//tensorflow/lite/tools/optimize:quantization_utils",
         "//tensorflow/lite/tools/versioning",
         "@com_google_absl//absl/algorithm:container",
+        "@com_google_absl//absl/base",
         "@com_google_absl//absl/types:span",
         "@com_google_googletest//:gtest",
         "@flatbuffers",
