@@ -1424,6 +1424,7 @@ cc_library(
         "//xla/service/gpu/transforms:all_reduce_blueconnect",
         "//xla/service/gpu/transforms:all_reduce_splitter",
         "//xla/service/gpu/transforms:async_collective_annotator",
+        "//xla/service/gpu/transforms:async_wrapper",
         "//xla/service/gpu/transforms:collective_permute_cycle_decomposer",
         "//xla/service/gpu/transforms:collective_permute_valid_iteration_annotator",
         "//xla/service/gpu/transforms:command_buffer_scheduling",
@@ -2088,6 +2089,7 @@ cc_library(
         "@local_tsl//tsl/platform:path",
         "@local_tsl//tsl/platform:protobuf",
         "@local_tsl//tsl/platform:statusor",
+        "@local_tsl//tsl/profiler/lib:traceme",
         "@local_tsl//tsl/profiler/protobuf:profiled_instructions_proto_cc",
     ],
 )
