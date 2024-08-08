@@ -1045,11 +1045,15 @@ absl::StatusOr<DeviceTopologyPair> BuildDistributedDevices(
   std::map<int, GlobalDeviceId> gpu_device_ids;
   absl::flat_hash_map<GlobalDeviceId, int> device_to_node;
   for (const LocalTopologyProto& node : global_topology.nodes()) {
+    int device_idx = -1;
     for (const DeviceProto& device_proto : node.devices()) {
+      device_idx++;
       GlobalDeviceId global_device_id(device_proto.global_device_id());
       device_to_node[global_device_id] = node.node_id();
       std::unique_ptr<LocalDeviceState> local_device;
-      if (node.node_id() == node_id) {
+
+      // Only the first device is considered addressable.
+      if (node.node_id() == node_id && (!enable_mock_nccl || device_idx == 0)) {
         auto it = local_device_states.find(device_proto.local_device_ordinal());
         TF_RET_CHECK(it != local_device_states.end())
             << device_proto.local_device_ordinal();
@@ -1064,12 +1068,15 @@ absl::StatusOr<DeviceTopologyPair> BuildDistributedDevices(
           device_proto.global_device_id(), std::move(local_device),
           device_proto.name(), device_proto.vendor(),
           device_proto.compute_capability(), device_proto.core_count(),
-          node.node_id(), device_proto.slice_index());
+          /*process_index=*/node.node_id() +
+              (!enable_mock_nccl ? 0 : device_idx),
+          device_proto.slice_index());
       devices.push_back(std::move(device));
     }
   }
+
   for (const auto& device : local_device_states) {
-    TF_RET_CHECK(device.second == nullptr);
+    TF_RET_CHECK(enable_mock_nccl || device.second == nullptr);
   }
   gpu_executable_run_options->set_gpu_global_device_ids(
       std::move(gpu_device_ids));
@@ -1085,6 +1092,7 @@ absl::StatusOr<DeviceTopologyPair> BuildDistributedDevices(
 #endif  // GOOGLE_CUDA
   TF_ASSIGN_OR_RETURN(GpuTopologyProto gpu_topology,
                       BuildGpuTopology(global_topology));
+
   return std::make_pair(std::move(devices), gpu_topology);
 }
 
@@ -1207,7 +1215,6 @@ absl::StatusOr<std::unique_ptr<PjRtClient>> GetStreamExecutorGpuClient(
   auto host_memory_allocator =
       GetGpuHostAllocator(local_device_states.begin()->second->executor());
 
-  std::vector<std::unique_ptr<PjRtStreamExecutorDevice>> devices;
   auto gpu_run_options = std::make_unique<gpu::GpuExecutableRunOptions>();
   if (options.enable_mock_nccl) {
     gpu_run_options->set_enable_mock_nccl_collectives();
