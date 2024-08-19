@@ -244,6 +244,7 @@ def cc_proto_library(
     if use_grpc_plugin:
         cc_libs += select({
             clean_dep("//tensorflow/tsl:linux_s390x"): ["//external:grpc_lib_unsecure"],
+            clean_dep("//tensorflow/tsl:linux_ppc64le"): ["//external:grpc_lib_unsecure"],
             "//conditions:default": ["//external:grpc_lib"],
         })
 
@@ -327,6 +328,7 @@ def cc_grpc_library(
 
     extra_deps += select({
         clean_dep("//tensorflow/tsl:linux_s390x"): ["//external:grpc_lib_unsecure"],
+        clean_dep("//tensorflow/tsl:linux_ppc64le"): ["//external:grpc_lib_unsecure"],
         "//conditions:default": ["//external:grpc_lib"],
     })
 
