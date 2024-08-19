@@ -43,7 +43,15 @@ diff --git a/utils/bazel/llvm-project-overlay/llvm/config.bzl b/utils/bazel/llvm
 index 2e3bff53ead9..8d01617effdc 100644
 --- a/utils/bazel/llvm-project-overlay/llvm/config.bzl
 +++ b/utils/bazel/llvm-project-overlay/llvm/config.bzl
-@@ -98,8 +98,9 @@ builtin_thread_pointer = select({
+@@ -91,7 +91,6 @@
+# configure time check.
+builtin_thread_pointer = select({    
+    "@bazel_tools//src/conditions:linux_ppc64le": [],
+-   "@bazel_tools//src/conditions:linux": ["HAVE_BUILTIN_THREAD_POINTER"],
+    "//conditions:default": [],
+})
+
+@@ -98,8 +97,9 @@ builtin_thread_pointer = select({
  # TODO: We should split out host vs. target here.
  llvm_config_defines = os_defines + builtin_thread_pointer + select({
      "@bazel_tools//src/conditions:windows": native_arch_defines("X86", "x86_64-pc-win32"),
