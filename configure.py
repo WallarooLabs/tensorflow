@@ -1296,11 +1296,9 @@ def main():
       write_to_bazelrc('build --linkopt="-fuse-ld=gold"')
 
       # Get the linker version
-      ld_version = run_shell([gcc_env, '-Wl,-version']).split()
+      ld_version = run_shell([gcc_env, '-Wl,-version']).splitlines()[0].split()[-1]
 
-      ld_version_int = convert_version_to_int(ld_version[3])
-      if ld_version_int is None:
-        ld_version_int = convert_version_to_int(ld_version[4])
+      ld_version_int = convert_version_to_int(ld_version)
 
       # Enable if 'ld' version >= 2.35
       if ld_version_int >= 2035000:
