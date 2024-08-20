@@ -1093,7 +1093,6 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = select({
         ":linux_s390x": ["@com_github_grpc_grpc//:grpc_unsecure"],
-        ":linux_ppc64le": ["@com_github_grpc_grpc//:grpc_unsecure"],
         "//conditions:default": ["@com_github_grpc_grpc//:grpc"],
     }),
 )
@@ -1103,7 +1102,6 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = select({
         ":linux_s390x": ["@com_github_grpc_grpc//:grpc++_unsecure"],
-        ":linux_ppc64le": ["@com_github_grpc_grpc//:grpc++_unsecure"],
         "//conditions:default": ["@com_github_grpc_grpc//:grpc++"],
     }),
 )
