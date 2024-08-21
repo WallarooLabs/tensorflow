@@ -17,6 +17,7 @@ limitations under the License.
 #define TENSORFLOW_TSL_LIB_IO_CACHE_H_
 
 #include "tensorflow/tsl/platform/stringpiece.h"
+#include <cstdint>
 
 // A Cache is an interface that maps keys to values.  It has internal
 // synchronization and may be safely accessed concurrently from
