@@ -17,6 +17,7 @@ limitations under the License.
 
 #include "tensorflow/tsl/platform/cpu_info.h"
 #include "tensorflow/tsl/platform/platform.h"
+#include <cstdint>
 
 // If we're on gcc 4.8 or older, there's a known bug that prevents the use of
 // intrinsics when the architecture is not defined in the flags. See
