@@ -1825,7 +1825,6 @@ def _cuda_copts(opts = []):
         "@local_config_cuda//cuda:using_nvcc": [
             "-nvcc_options=relaxed-constexpr",
             "-nvcc_options=ftz=true",
-            "-nvcc_options=-allow-unsupported-compiler",
         ] + opts,
         "@local_config_cuda//cuda:using_clang": [
             "-fcuda-flush-denormals-to-zero",
