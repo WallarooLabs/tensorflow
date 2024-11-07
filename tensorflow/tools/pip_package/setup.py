@@ -97,7 +97,7 @@ REQUIRED_PACKAGES = [
     'setuptools',
     'six >= 1.12.0',
     'termcolor >= 1.1.0',
-    'typing_extensions>=3.6.6,<4.6.0',
+    'typing_extensions>=3.6.6',
     'wrapt >= 1.11.0',
     'tensorflow-io-gcs-filesystem >= 0.23.1;platform_machine!="arm64" or ' +
     'platform_system!="Darwin"',
@@ -130,8 +130,6 @@ FAKE_REQUIRED_PACKAGES = [
     standard_or_nightly('tensorflow-cpu-aws', 'tf-nightly-cpu-aws') + '==' +
     _VERSION + ';platform_system=="Linux" and (platform_machine=="arm64" or '
     'platform_machine=="aarch64")',
-    standard_or_nightly('tensorflow-intel', 'tf-nightly-intel') + '==' +
-    _VERSION + ';platform_system=="Windows"',
 ]
 
 if platform.system() == 'Linux' and platform.machine() == 'x86_64':
@@ -146,10 +144,6 @@ if collaborator_build:
       standard_or_nightly('tensorflow-cpu-aws', 'tf-nightly-cpu-aws') + '==' +
       _VERSION + ';platform_system=="Linux" and (platform_machine=="arm64" or '
       'platform_machine=="aarch64")',
-      # Install the TensorFlow package built by Intel if the user is on a
-      # Windows machine.
-      standard_or_nightly('tensorflow-intel', 'tf-nightly-intel') + '==' +
-      _VERSION + ';platform_system=="Windows"',
       # Install the TensorFlow package built by Apple if the user is running
       # macOS on an Apple Silicon machine.
       standard_or_nightly('tensorflow-macos', 'tf-nightly-macos') + '==' +
